@@ -1,7 +1,7 @@
 import json
 
 from config import CHANNEL_ID, RESOURCES_DIR
-from utils import InlineMarkupBuilder
+from utils import InlineMarkupBuilder, Donation
 
 
 current_message_index = 0;
@@ -14,9 +14,5 @@ def stub_message_job(bot, updater):
     global current_message_index
 
     current_message_index = (current_message_index + 1) % len(messages)
-    donate_button_callback_data = { "donation_id": current_message_index }
-    button_markup = InlineMarkupBuilder()\
-        .add_button("Пожертвовать!", json.dumps(donate_button_callback_data))\
-        .to_markup()
-    print(button_markup)
+    button_markup = InlineMarkupBuilder.build_initial_markup(current_message_index)
     bot.send_message(text=messages[current_message_index], chat_id=CHANNEL_ID, reply_markup=button_markup)
