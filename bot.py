@@ -1,21 +1,17 @@
 import logging
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
+
+from config import BOT_TOKEN
+from handlers import donate_command_handler, callback_query_handler
 
 logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         level=logging.INFO)
 
-def start(bot, update):
-    update.message.reply_text('Hello World!')
+updater = Updater(BOT_TOKEN)
 
-def hello(bot, update):
-    update.message.reply_text(
-        'Hello {}'.format(update.message.from_user.first_name))
-
-updater = Updater('477027524:AAHjzfguxYlhM1KZDUUd8vW3oihd4MsKnx0')
-
-updater.dispatcher.add_handler(CommandHandler('start', start))
-updater.dispatcher.add_handler(CommandHandler('hello', hello))
+updater.dispatcher.add_handler(CommandHandler('donate', donate_command_handler))
+updater.dispatcher.add_handler(CallbackQueryHandler(callback_query_handler))
 
 updater.start_polling()
 updater.idle()
