@@ -1,2 +1,2 @@
 def callback_query_handler(bot, update):
-    print("BUTTON!")
+    print(update.callback_query.data)
